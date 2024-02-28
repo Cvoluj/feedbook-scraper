@@ -50,10 +50,10 @@ LOG_FILE = os.getenv("LOG_FILE") if os.getenv("LOG_FILE", "") else None
 ITEM_PIPELINES: Dict[str, int] = {}
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
-DB_PORT = int(os.getenv("DB_PORT", "3306"))
+DB_PORT = int(os.getenv("DB_PORT", "3366"))
 DB_USERNAME = os.getenv("DB_USERNAME", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-DB_DATABASE = os.getenv("DB_DATABASE", "db_name")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "11111111")
+DB_DATABASE = os.getenv("DB_DATABASE", "feedbook")
 
 PIKA_LOG_LEVEL = os.getenv("PIKA_LOG_LEVEL", "WARN")
 logging.getLogger("pika").setLevel(PIKA_LOG_LEVEL)
