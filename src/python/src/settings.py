@@ -18,13 +18,13 @@ COMMANDS_MODULE = "commands"
 
 PROXY = os.getenv("PROXY", "")
 PROXY_AUTH = os.getenv("PROXY_AUTH", "")
-PROXY_ENABLED = strtobool(os.getenv("PROXY_ENABLED", "False"))
+PROXY_ENABLED = strtobool(os.getenv("PROXY_ENABLED", "False")) 
 
 USER_AGENT_RELEASE_DATE = '2021-11-01'
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
 
 CONCURRENT_REQUESTS = int(os.getenv("CONCURRENT_REQUESTS", "16"))
-CONCURRENT_REQUESTS_PER_DOMAIN = int(os.getenv("CONCURRENT_REQUESTS_PER_DOMAIN", "8"))
+CONCURRENT_REQUESTS_PER_DOMAIN = int(os.getenv("CONCURRENT_REQUESTS_PER_DOMAIN", "16"))
 DOWNLOAD_DELAY = int(os.getenv("DOWNLOAD_DELAY", "0"))
 DOWNLOAD_TIMEOUT = int(os.getenv("DOWNLOAD_TIMEOUT", "180"))
 
@@ -47,7 +47,13 @@ DOWNLOADER_MIDDLEWARES = {
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 LOG_FILE = os.getenv("LOG_FILE") if os.getenv("LOG_FILE", "") else None
 
-ITEM_PIPELINES: Dict[str, int] = {}
+IMAGES_STORE = 'data/images'
+DOWNLOAD_DELAY = 1
+
+ITEM_PIPELINES: Dict[str, int] = {
+    'pipelines.feedbook_clean_pipeline.FeedbookCleanPipeline': 300,
+    'pipelines.feedbook_images_pipeline.FeedbookImagesPipeline': 400,
+}
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("DB_PORT", "3366"))

@@ -1,8 +1,8 @@
-"""changed nullable fields to not nullable
+"""initial migration
 
-Revision ID: 497c610fdb7a
-Revises: 1f658434dfa2
-Create Date: 2024-02-27 20:36:23.787525
+Revision ID: 472c32b5bf08
+Revises: 
+Create Date: 2024-02-28 13:55:59.495745
 
 """
 import sqlalchemy as sa
@@ -11,8 +11,8 @@ from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision = '497c610fdb7a'
-down_revision = '1f658434dfa2'
+revision = '472c32b5bf08'
+down_revision = None
 branch_labels = None
 depends_on = None
 
