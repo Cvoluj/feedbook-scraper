@@ -3,6 +3,7 @@
 /docker_persistent_data/*
 !/docker_persistent_data/.gitkeep
 /data/*
+src/python/src/data/images/
 !/data/.gitkeep
 node_modules/
 .env
