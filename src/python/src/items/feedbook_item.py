@@ -1,0 +1,27 @@
+import scrapy
+
+
+class FeedbookItem(scrapy.Item):
+    book_id = scrapy.Field()
+    book_url = scrapy.Field()
+    title = scrapy.Field()
+    authors = scrapy.Field()
+    translators = scrapy.Field()
+    series = scrapy.Field()
+    series_number = scrapy.Field()
+    series_link = scrapy.Field()
+    categories = scrapy.Field()
+    description = scrapy.Field()
+    publication_date = scrapy.Field()
+    publisher = scrapy.Field()
+    epub_isbn = scrapy.Field()
+    paper_isbn = scrapy.Field()
+    language = scrapy.Field()
+    page_count = scrapy.Field()
+    format_ebook = scrapy.Field()
+    ebook_size = scrapy.Field()
+    protection = scrapy.Field()
+    price = scrapy.Field()
+    currency = scrapy.Field()
+    image_link = scrapy.Field()
+    image_name = scrapy.Field()
