@@ -43,6 +43,14 @@ class FeedbookCleanPipeline:
 
         ## set filename
         adapter['image_name'] = adapter['image_link'][0].split('/')[-1].split('?')[0]
+        
+        ## replace empty categories with None
+        if not adapter['categories']:
+            adapter['categories'] = None
+
+        if adapter['translators'] == 'null':
+            adapter['translator'] == None
+
         return item
 
     def clean_price(self, price_str: str) -> (tuple[Literal['Free'], None] | tuple[float, str]):
@@ -89,9 +97,11 @@ class FeedbookCleanPipeline:
             {'author': ['John Doe'], 'translator': ['Jane Smith']}
         """
         roles_dictionary: Dict[str, List[str]] = {}
+        if isinstance(line, list):
+            line = line[0]
 
         text = line.split('by')[1]
-        name_role = text.split(',')
+        name_role = text.split(') ,')
         for value in name_role:
             name, role  = value.split('(')
             role = role.replace(')', '').strip().lower()
@@ -131,7 +141,11 @@ class FeedbookCleanPipeline:
         """
         try:
             parsed_date = datetime.strptime(date_str, "%B %d, %Y")
-            return parsed_date.isoformat()
-        except ValueError as e:
-            logging.warning(f"Failed to parse publication date: {e}")
-            return None
+        except ValueError:
+            try:
+                parsed_date = datetime.fromisoformat(date_str)
+            except ValueError as e:
+                logging.warning(f"Failed to parse publication date: {e}")
+                return None
+        
+        return parsed_date.isoformat() if parsed_date else None

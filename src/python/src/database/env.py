@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 from utils import mysql_connection_string  # noqa
 from database.models.base import Base
-from database.models.book_model import book_model
+from database.models import *
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
