@@ -16,9 +16,10 @@ SPIDER_MODULES = ["spiders"]
 NEWSPIDER_MODULE = "spiders"
 COMMANDS_MODULE = "commands"
 
-PROXY = os.getenv("PROXY", "")
+# PROXY = os.getenv("PROXY", "")
 PROXY_AUTH = os.getenv("PROXY_AUTH", "")
-PROXY_ENABLED = strtobool(os.getenv("PROXY_ENABLED", "False")) 
+# PROXY_ENABLED = strtobool(os.getenv("PROXY_ENABLED", "False")) 
+PROXY_ENABLED = False
 
 USER_AGENT_RELEASE_DATE = '2021-11-01'
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
@@ -39,27 +40,38 @@ DEFAULT_REQUEST_HEADERS = {
 
 ROTATING_PROXIES_DOWNLOADER_HANDLER_AUTO_CLOSE_CACHED_CONNECTIONS_ENABLED: bool = True
 
+PROXY_MODE = 1
+PROXY_LIST_FILE = 'proxy_list.json'
+
 DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware": None,
     "middlewares.HttpProxyMiddleware": 543,
+    'middlewares.ProxyRotationMiddleware': None,
+    # 'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    # 'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
 }
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 LOG_FILE = os.getenv("LOG_FILE") if os.getenv("LOG_FILE", "") else None
+LOG_LEVEL = 'WARNING'
 
 IMAGES_STORE = 'data/images'
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 0
 
 ITEM_PIPELINES: Dict[str, int] = {
     'pipelines.feedbook_clean_pipeline.FeedbookCleanPipeline': 300,
     'pipelines.feedbook_images_pipeline.FeedbookImagesPipeline': 400,
+    'pipelines.feedbook_db_pipeline.FeedbookDbPipeline': 500,
 }
+
 
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("DB_PORT", "3366"))
 DB_USERNAME = os.getenv("DB_USERNAME", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "11111111")
 DB_DATABASE = os.getenv("DB_DATABASE", "feedbook")
+
+
 
 PIKA_LOG_LEVEL = os.getenv("PIKA_LOG_LEVEL", "WARN")
 logging.getLogger("pika").setLevel(PIKA_LOG_LEVEL)

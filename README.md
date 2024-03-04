@@ -38,21 +38,21 @@ To create and run a new Scrapy project using this boilerplate, you need to:
    5. `poetry shell`
    6. `scrapy`
 
-### Docker
+### Docker running spider
 
-The project includes Dockerfiles and docker-compose configuration for running your spiders in containers.
+`cd var/src/python/src`
+`poetry shell`
+`scrapy crawl feedbook`
 
-Also, a configuration for default RabbitMQ server is included.
-
-Dockerfiles are located inside the `docker` subdirectory, and the `docker-compose.yml` - at the root of the project.
-
-Docker-compose takes configuration values from ENV. Environment can also be provided by creating a `.env` file at the root of the project (see `.env.example` as a sample).
+### Local running spider
+1. `cd src/python/src`
+2. `poetry shell`
+3. `scrapy crawl feedbook`
 
 ### Proxy middleware
 
-A scrapy downloader middleware to use a proxy server is included in `src/middlewares/HttpProxyMiddleware.py` and is enabled by default. You can use it by providing proxy endpoint with the env variable (or in the `.env` file) `PROXY` in the format `host:port`. Proxy authentication can also be provided in the `PROXY_AUTH` variable, using the format `user:password`. If provided, it is encoded as a Basic HTTP Auth and put into `Proxy-Authorization` header.
-
-A single-endpoint proxy is used by default, assuming usage of rotating proxies service. If you want to provide your own list of proxies, an external package has to be used, as this use-case is not yet covered by this boilerplate.
+Use `proxy_list.json` 
+Disable `PROXY_ENABLED`
 
 ## File and folder structure
 

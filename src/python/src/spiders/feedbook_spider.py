@@ -1,7 +1,9 @@
-from typing import Any
 import logging
 import scrapy
 from scrapy.http import Response
+from scrapy.exceptions import DontCloseSpider
+from scrapy import signals
+from datetime import datetime, timedelta
 
 from items.feedbook_item import FeedbookItem
 
@@ -9,10 +11,34 @@ from items.feedbook_item import FeedbookItem
 class FeedbookSpider(scrapy.Spider):
     name = 'feedbook'
     allowed_domains = ['feedbooks.com']
-    start_urls = ['https://www.feedbooks.com/search?advanced_search=true&age=all&author=&award=&book_format=all&button=&collection_name=&description=&lang=all&publication_date_end=&publication_date_start=&publisher_name=&query=&serie=&title=']
 
-    proxy_enabled = True
+    proxy_enabled = False
+    proxy_mode = 1
+    
+    ## method to generate links from time - time, without overlapping
+    @staticmethod
+    def generate_links_period(start_date: datetime, end_date: datetime, delta: int):
+        base_url = "https://www.feedbooks.com/search?advanced_search=true&age=all&author=&award=&book_format=all&button=&collection_name=&description=&lang=all&publication_date_end={end_date}&publication_date_start={start_date}&publisher_name=&query=&serie=&sort=recent&title="
+        links = []
+        while start_date <= end_date:
+            next_date = start_date + timedelta(days=delta)
+            end_date_str = min(next_date - timedelta(days=1), end_date).strftime("%Y-%m-%d")
+            link = base_url.format(start_date=start_date.strftime("%Y-%m-%d"), end_date=end_date_str)
+            links.append(link)
+            start_date = next_date
+        return links  
 
+    ## 0000-1954 ~9500 books
+    from_jesus_birth = ['https://www.feedbooks.com/search?advanced_search=true&age=all&author=&award=&book_format=all&button=&collection_name=&description=&lang=all&publication_date_end=1954-01-01&publication_date_start=0000-01-01&publisher_name=&query=&serie=&title=']
+    ## from this 5 year period there are no links with >1000 books
+    links1954_1993 = generate_links_period(datetime(1954, 1, 2), datetime(1993, 12, 22), 365 * 5)
+    ## 14 day period, because from ~2017 there are ~3000 books in 2 weeks
+    links1993_today = generate_links_period(datetime(1993, 12, 23), datetime.today(), 14)
+
+    # testlink = generate_links_period(datetime(1993, 8, 23), datetime(1993, 12, 23), 14)
+    # *from_jesus_birth, *links1954_1993, *links1993_today
+    start_urls = [*from_jesus_birth, *links1954_1993, *links1993_today]
+   
     def parse(self, response: Response):
         for book in response.css('div.browse__item'):
 
@@ -102,4 +128,3 @@ class FeedbookSpider(scrapy.Spider):
         )
        
         yield book
-        logging.info(book)
