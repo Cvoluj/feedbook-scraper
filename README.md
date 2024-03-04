@@ -40,7 +40,7 @@ To create and run a new Scrapy project using this boilerplate, you need to:
 
 ### Docker running spider
 
-`cd var/src/python/src`
+`cd var/app/python/src`
 `poetry shell`
 `scrapy crawl feedbook`
 
