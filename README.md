@@ -47,7 +47,8 @@ To create and run a new Scrapy project using this boilerplate, you need to:
 ### Local running spider
 1. `cd src/python/src`
 2. `poetry shell`
-3. `scrapy crawl feedbook`
+3. `alembic upgrade head`
+4. `scrapy crawl feedbook`
 
 ### Proxy middleware
 
