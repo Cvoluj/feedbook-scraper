@@ -1,0 +1,14 @@
+.idea/
+.env
+/docker_persistent_data/*
+!/docker_persistent_data/.gitkeep
+/data/*
+src/python/src/data/images/
+src/python/src/data/dump/
+!/data/.gitkeep
+node_modules/
+.env
+ecosystem.json
+logs/*.log
+build/
+proxy_list.json
